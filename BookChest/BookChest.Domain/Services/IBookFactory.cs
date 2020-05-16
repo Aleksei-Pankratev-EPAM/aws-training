@@ -4,6 +4,6 @@ namespace BookChest.Domain.Services
 {
     public interface IBookFactory
     {
-        IBook Create(string isbn, string title = "", string description = "");
+        Book Create(string isbnString, string title = "", string description = "", uint version = 0);
     }
 }

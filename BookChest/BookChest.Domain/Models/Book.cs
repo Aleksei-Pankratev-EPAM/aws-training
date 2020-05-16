@@ -1,18 +1,21 @@
 ﻿namespace BookChest.Domain.Models
 {
-    internal class Book : IBook
+    public class Book
     {
-        public IIsbn Isbn { get; private set; }
+        public Isbn Isbn { get; }
 
         public string Title { get; set; }
 
         public string Description { get; set; }
 
-        public Book(IIsbn isbn, string title = "", string description = "")
+        public uint Version { get; set; }
+
+        public Book(Isbn isbn, string title, string description, uint version)
         {
             Isbn = isbn;
             Title = title;
             Description = description;
+            Version = version;
         }
     }
 }

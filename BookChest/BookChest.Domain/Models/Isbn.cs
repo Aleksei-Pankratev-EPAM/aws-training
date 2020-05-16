@@ -1,6 +1,6 @@
 ﻿namespace BookChest.Domain.Models
 {
-    internal class Isbn : IIsbn
+    public class Isbn
     {
         private const string Prefix = "ISBN ";
         private const char Hyphen = '-';
