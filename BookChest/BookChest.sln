@@ -3,14 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookChest.WebAPI", "BookChest.WebAPI\BookChest.WebAPI.csproj", "{F046065C-D2CA-4766-8457-D5F38DC94EDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookChest.WebAPI", "BookChest.WebAPI\BookChest.WebAPI.csproj", "{F046065C-D2CA-4766-8457-D5F38DC94EDB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{393EE437-8D22-4DD3-BEF1-2EC807758492}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		..\.gitignore = ..\.gitignore
+		Default.targets = Default.targets
 		..\README.md = ..\README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookChest.API", "BookChest.API\BookChest.API.csproj", "{859C8178-F7FF-4D0F-A90F-2ABF14BE3965}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookChest.Infrastructure", "BookChest.Infrastructure\BookChest.Infrastructure.csproj", "{DFA21BC4-EE2A-44F5-97F1-BEC1376EF8D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookChest.Domain", "BookChest.Domain\BookChest.Domain.csproj", "{E465BA0B-FBE0-4573-BF1C-459588BE071E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,6 +29,18 @@ Global
 		{F046065C-D2CA-4766-8457-D5F38DC94EDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F046065C-D2CA-4766-8457-D5F38DC94EDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F046065C-D2CA-4766-8457-D5F38DC94EDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{859C8178-F7FF-4D0F-A90F-2ABF14BE3965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{859C8178-F7FF-4D0F-A90F-2ABF14BE3965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{859C8178-F7FF-4D0F-A90F-2ABF14BE3965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{859C8178-F7FF-4D0F-A90F-2ABF14BE3965}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFA21BC4-EE2A-44F5-97F1-BEC1376EF8D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFA21BC4-EE2A-44F5-97F1-BEC1376EF8D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFA21BC4-EE2A-44F5-97F1-BEC1376EF8D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFA21BC4-EE2A-44F5-97F1-BEC1376EF8D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E465BA0B-FBE0-4573-BF1C-459588BE071E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E465BA0B-FBE0-4573-BF1C-459588BE071E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E465BA0B-FBE0-4573-BF1C-459588BE071E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E465BA0B-FBE0-4573-BF1C-459588BE071E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
