@@ -1,4 +1,4 @@
-﻿namespace BookChest.Domain.Services
+﻿namespace BookChest.Domain.Messages
 {
     public enum BookAction
     {

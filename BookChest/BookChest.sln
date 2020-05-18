@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookChest.Domain", "BookChe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookChest.Tests", "BookChest.Tests\BookChest.Tests.csproj", "{0EE7A8DF-C00D-45B7-AE56-88364497F67A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookChest.DI", "BookChest.DI\BookChest.DI.csproj", "{190078C0-33D2-41AD-8BDA-0B9BE37C02D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookChest.DI", "BookChest.DI\BookChest.DI.csproj", "{190078C0-33D2-41AD-8BDA-0B9BE37C02D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookChest.Lambda.S3Management", "BookChest.Lambda.S3Management\BookChest.Lambda.S3Management.csproj", "{D25227C1-9E90-4899-A630-BD834D43CC31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{190078C0-33D2-41AD-8BDA-0B9BE37C02D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{190078C0-33D2-41AD-8BDA-0B9BE37C02D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{190078C0-33D2-41AD-8BDA-0B9BE37C02D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D25227C1-9E90-4899-A630-BD834D43CC31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D25227C1-9E90-4899-A630-BD834D43CC31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D25227C1-9E90-4899-A630-BD834D43CC31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D25227C1-9E90-4899-A630-BD834D43CC31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
