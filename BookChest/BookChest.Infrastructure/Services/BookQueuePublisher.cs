@@ -1,5 +1,6 @@
 ﻿using Amazon.SQS;
 using Amazon.SQS.Model;
+using BookChest.Domain.Messages;
 using BookChest.Domain.Models;
 using BookChest.Domain.Services;
 using Newtonsoft.Json;
@@ -39,7 +40,11 @@ namespace BookChest.Infrastructure.Services
         {
             await _getQueueUrlTask;
 
-            var messageObj = new { Action = action, Isbn = IsbnToString(isbn) };
+            var messageObj = new BookChangeMessage
+            {
+                Action = action,
+                Isbn = IsbnToString(isbn)
+            };
             var messageJson = JsonConvert.SerializeObject(messageObj, _serializerSettings);
 
             await _queue.SendMessageAsync(new SendMessageRequest()

@@ -1,6 +1,7 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using BookChest.Domain.Exceptions;
+using BookChest.Domain.Messages;
 using BookChest.Domain.Models;
 using BookChest.Domain.Services;
 using System.Collections.Generic;

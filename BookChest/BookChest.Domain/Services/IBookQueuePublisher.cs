@@ -1,4 +1,5 @@
-﻿using BookChest.Domain.Models;
+﻿using BookChest.Domain.Messages;
+using BookChest.Domain.Models;
 using System.Threading.Tasks;
 
 namespace BookChest.Domain.Services
