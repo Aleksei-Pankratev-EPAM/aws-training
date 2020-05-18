@@ -1,11 +1,8 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
-using Amazon.SQS;
-using Amazon.SQS.Model;
 using BookChest.Domain.Exceptions;
 using BookChest.Domain.Models;
 using BookChest.Domain.Services;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,23 +15,16 @@ namespace BookChest.Infrastructure.Services
 
         private readonly BookChestDbContext _dbContext;
         private readonly IBookFactory _bookFactory;
-        private readonly IAmazonSQS _queue;
-        private readonly Task<string> _getQueueUrlTask;
+        private readonly IBookQueuePublisher _bookQueuePublisher;
+
         public BookRepository(
             BookChestDbContext dbContext,
             IBookFactory bookFactory,
-            IAmazonSQS queue)
+            IBookQueuePublisher bookQueuePublisher)
         {
             _dbContext = dbContext;
             _bookFactory = bookFactory;
-            _queue = queue;
-
-            _getQueueUrlTask = Task.Run(async () =>
-            {
-                var request = new GetQueueUrlRequest {QueueName = "book-chest-queue"};
-                var response = await _queue.GetQueueUrlAsync(request);
-                return response.QueueUrl;
-            });
+            _bookQueuePublisher = bookQueuePublisher;
         }
 
         #endregion Constructors
@@ -47,7 +37,7 @@ namespace BookChest.Infrastructure.Services
 
             await _dbContext.SaveAsync(document);
 
-            await Notify("Created", book.Isbn);
+            await _bookQueuePublisher.Notify(BookAction.Created, book.Isbn);
         }
 
         public async Task Delete(Isbn isbn)
@@ -56,14 +46,14 @@ namespace BookChest.Infrastructure.Services
 
             await _dbContext.DeleteAsync<BookDocument>(isbnString);
 
-            await Notify("Deleted", isbn);
+            await _bookQueuePublisher.Notify(BookAction.Deleted, isbn);
         }
 
         public async Task<IList<Book>> Find(string isbnPart)
         {
             var condition = new ScanCondition(nameof(BookDocument.isbn), ScanOperator.BeginsWith, isbnPart);
             var documents = await _dbContext
-                .ScanAsync<BookDocument>(new [] { condition})
+                .ScanAsync<BookDocument>(new[] { condition })
                 .GetNextSetAsync();
 
             return documents.Select(Convert).ToList();
@@ -95,9 +85,8 @@ namespace BookChest.Infrastructure.Services
 
             await _dbContext.SaveAsync(document);
 
-            await Notify("Updated", book.Isbn);
+            await _bookQueuePublisher.Notify(BookAction.Updated, book.Isbn);
         }
-
 
         #endregion Public Methods
 
@@ -123,20 +112,6 @@ namespace BookChest.Infrastructure.Services
         }
 
         private string IsbnToString(Isbn isbn) => isbn.ToString(IsbnFormat.IncludeHyphens);
-
-        private async Task Notify(string action, Isbn isbn)
-        {
-            await _getQueueUrlTask;
-
-            var messageObj = new {Action = action, Isbn = IsbnToString(isbn)};
-            var messageJson = JsonConvert.SerializeObject(messageObj);
-
-            await _queue.SendMessageAsync(new SendMessageRequest()
-            {
-                QueueUrl = _getQueueUrlTask.Result,
-                MessageBody = messageJson
-            });
-        }
 
         #endregion Private Methods
 

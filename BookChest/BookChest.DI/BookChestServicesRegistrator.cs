@@ -34,6 +34,7 @@ namespace BookChest.DI
             services.AddAWSService<IAmazonSQS>();
             var sqsClient = awsConfig.CreateServiceClient<IAmazonSQS>();
             services.AddSingleton(sqsClient);
+            services.AddSingleton<IBookQueuePublisher, BookQueuePublisher>();
 
             return services;
         }
