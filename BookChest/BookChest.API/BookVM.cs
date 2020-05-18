@@ -1,6 +1,6 @@
 ﻿namespace BookChest.API
 {
-    public class Book
+    public class BookVM
     {
         /// <summary>
         /// International Standard Book Number with or without separators.

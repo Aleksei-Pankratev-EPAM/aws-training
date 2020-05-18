@@ -17,9 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookChest.API", "BookChest.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookChest.Infrastructure", "BookChest.Infrastructure\BookChest.Infrastructure.csproj", "{DFA21BC4-EE2A-44F5-97F1-BEC1376EF8D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookChest.Domain", "BookChest.Domain\BookChest.Domain.csproj", "{E465BA0B-FBE0-4573-BF1C-459588BE071E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookChest.Domain", "BookChest.Domain\BookChest.Domain.csproj", "{E465BA0B-FBE0-4573-BF1C-459588BE071E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookChest.Tests", "BookChest.Tests\BookChest.Tests.csproj", "{0EE7A8DF-C00D-45B7-AE56-88364497F67A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookChest.Tests", "BookChest.Tests\BookChest.Tests.csproj", "{0EE7A8DF-C00D-45B7-AE56-88364497F67A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookChest.DI", "BookChest.DI\BookChest.DI.csproj", "{190078C0-33D2-41AD-8BDA-0B9BE37C02D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{0EE7A8DF-C00D-45B7-AE56-88364497F67A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EE7A8DF-C00D-45B7-AE56-88364497F67A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EE7A8DF-C00D-45B7-AE56-88364497F67A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{190078C0-33D2-41AD-8BDA-0B9BE37C02D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{190078C0-33D2-41AD-8BDA-0B9BE37C02D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{190078C0-33D2-41AD-8BDA-0B9BE37C02D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{190078C0-33D2-41AD-8BDA-0B9BE37C02D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

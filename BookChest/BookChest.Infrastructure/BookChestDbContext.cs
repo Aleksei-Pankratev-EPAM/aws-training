@@ -1,15 +1,13 @@
-﻿using BookChest.Domain.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 
 namespace BookChest.Infrastructure
 {
-    public class BookChestDbContext : DbContext
+    public class BookChestDbContext : DynamoDBContext
     {
-        public BookChestDbContext(DbContextOptions<BookChestDbContext> options)
-            : base(options)
+        public BookChestDbContext(IAmazonDynamoDB client)
+            : base(client)
         {
         }
-
-        public DbSet<IBook>? Books { get; set; }
     }
 }

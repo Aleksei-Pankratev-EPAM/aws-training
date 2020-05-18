@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using BookChest.DI;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,8 @@ namespace BookChest.WebAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Book Chest", Version = "v1" });
             });
+
+            services.AddBookChestServices(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

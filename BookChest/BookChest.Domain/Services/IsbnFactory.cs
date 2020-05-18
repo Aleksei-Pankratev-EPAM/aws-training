@@ -1,5 +1,5 @@
-﻿using BookChest.Domain.Models;
-using System;
+﻿using BookChest.Domain.Exceptions;
+using BookChest.Domain.Models;
 
 namespace BookChest.Domain.Services
 {
@@ -12,15 +12,14 @@ namespace BookChest.Domain.Services
             _isbnValidator = isbnValidator;
         }
 
-
         /// <summary>
         /// Create an instance of <see cref="Isbn"/> by given string.
         /// </summary>
-        /// <exception cref="T:System.ArgumentException">If provided value does not match ISBN standard.</exception>
+        /// <exception cref="T:BookChest.Domain.Exceptions.InvalidIsbnException">If provided value does not match ISBN standard.</exception>
         public Isbn Create(string isbnString)
         {
             if (!_isbnValidator.IsValidIsbn(isbnString))
-                throw new ArgumentException($"Provided string {isbnString} is not a valid ISBN");
+                throw new InvalidIsbnException($"Provided string {isbnString} is not a valid ISBN");
 
             var sanitizedIsbn = _isbnValidator.Sanitize(isbnString);
 

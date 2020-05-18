@@ -11,4 +11,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BookChest.API\BookChest.API.csproj" />
+    <ProjectReference Include="..\BookChest.DI\BookChest.DI.csproj" />
+    <ProjectReference Include="..\BookChest.Infrastructure\BookChest.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>
