@@ -15,13 +15,16 @@ namespace BookChest.Infrastructure.Services
 
         private readonly BookChestDbContext _dbContext;
         private readonly IBookFactory _bookFactory;
+        private readonly IBookQueuePublisher _bookQueuePublisher;
 
         public BookRepository(
             BookChestDbContext dbContext,
-            IBookFactory bookFactory)
+            IBookFactory bookFactory,
+            IBookQueuePublisher bookQueuePublisher)
         {
             _dbContext = dbContext;
             _bookFactory = bookFactory;
+            _bookQueuePublisher = bookQueuePublisher;
         }
 
         #endregion Constructors
@@ -33,6 +36,8 @@ namespace BookChest.Infrastructure.Services
             var document = Convert(book);
 
             await _dbContext.SaveAsync(document);
+
+            await _bookQueuePublisher.Notify(BookAction.Created, book.Isbn);
         }
 
         public async Task Delete(Isbn isbn)
@@ -40,13 +45,15 @@ namespace BookChest.Infrastructure.Services
             var isbnString = IsbnToString(isbn);
 
             await _dbContext.DeleteAsync<BookDocument>(isbnString);
+
+            await _bookQueuePublisher.Notify(BookAction.Deleted, isbn);
         }
 
         public async Task<IList<Book>> Find(string isbnPart)
         {
             var condition = new ScanCondition(nameof(BookDocument.isbn), ScanOperator.BeginsWith, isbnPart);
             var documents = await _dbContext
-                .ScanAsync<BookDocument>(new [] { condition})
+                .ScanAsync<BookDocument>(new[] { condition })
                 .GetNextSetAsync();
 
             return documents.Select(Convert).ToList();
@@ -77,8 +84,9 @@ namespace BookChest.Infrastructure.Services
             document.description = book.Description;
 
             await _dbContext.SaveAsync(document);
-        }
 
+            await _bookQueuePublisher.Notify(BookAction.Updated, book.Isbn);
+        }
 
         #endregion Public Methods
 

@@ -1,4 +1,5 @@
 ﻿using Amazon.DynamoDBv2;
+using Amazon.SQS;
 using BookChest.Domain.Services;
 using BookChest.Infrastructure;
 using BookChest.Infrastructure.Services;
@@ -23,12 +24,17 @@ namespace BookChest.DI
 
             var awsConfig = configuration.GetAWSOptions();
             services.AddDefaultAWSOptions(awsConfig);
-            services.AddAWSService<IAmazonDynamoDB>();
 
-            var client = awsConfig.CreateServiceClient<IAmazonDynamoDB>();
-            services.AddSingleton(client);
+            services.AddAWSService<IAmazonDynamoDB>();
+            var dynamoDbClient = awsConfig.CreateServiceClient<IAmazonDynamoDB>();
+            services.AddSingleton(dynamoDbClient);
             services.AddScoped<BookChestDbContext>();
             services.AddScoped<IBookRepository, BookRepository>();
+
+            services.AddAWSService<IAmazonSQS>();
+            var sqsClient = awsConfig.CreateServiceClient<IAmazonSQS>();
+            services.AddSingleton(sqsClient);
+            services.AddSingleton<IBookQueuePublisher, BookQueuePublisher>();
 
             return services;
         }
