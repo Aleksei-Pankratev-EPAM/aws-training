@@ -7,16 +7,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["BookChest.WebAPI/BookChest.WebAPI.csproj", "BookChest.WebAPI/"]
-RUN dotnet restore "BookChest.WebAPI/BookChest.WebAPI.csproj"
 COPY . .
-WORKDIR "/src/BookChest.WebAPI"
-RUN dotnet build "BookChest.WebAPI.csproj" -c Release -o /app/build
-
-FROM build AS publish
-RUN dotnet publish "BookChest.WebAPI.csproj" -c Release -o /app/publish
+RUN dotnet restore "BookChest.WebAPI/BookChest.WebAPI.csproj"
+RUN dotnet publish "BookChest.WebAPI" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "BookChest.WebAPI.dll"]
