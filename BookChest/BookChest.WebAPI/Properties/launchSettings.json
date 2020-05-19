@@ -30,6 +30,11 @@
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "environmentVariables": {
+        "AWS_REGION": "eu-central-1",
+        "AWS_ACCESS_KEY_ID": "*",
+        "AWS_SECRET_ACCESS_KEY": "*"
+      },
       "publishAllPorts": true,
       "useSSL": true
     }
