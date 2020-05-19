@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		..\.gitignore = ..\.gitignore
 		Default.targets = Default.targets
+		..\deploy-task-definition.json = ..\deploy-task-definition.json
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
@@ -24,6 +25,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookChest.DI", "BookChest.DI\BookChest.DI.csproj", "{190078C0-33D2-41AD-8BDA-0B9BE37C02D7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookChest.Lambda.S3Management", "BookChest.Lambda.S3Management\BookChest.Lambda.S3Management.csproj", "{D25227C1-9E90-4899-A630-BD834D43CC31}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{D78142EE-FF92-4011-995B-668F8427736D}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\aws.yml = ..\.github\workflows\aws.yml
+		..\.github\workflows\dotnetcore.yml = ..\.github\workflows\dotnetcore.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +69,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D78142EE-FF92-4011-995B-668F8427736D} = {393EE437-8D22-4DD3-BEF1-2EC807758492}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {909D5006-70D5-4DF1-AE97-4A6C11647CE6}
