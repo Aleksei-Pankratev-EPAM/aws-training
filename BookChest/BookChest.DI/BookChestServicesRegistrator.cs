@@ -1,4 +1,5 @@
 ﻿using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.SQS;
 using BookChest.Domain.Services;
 using BookChest.Infrastructure;
@@ -18,6 +19,8 @@ namespace BookChest.DI
         public static IServiceCollection AddBookChestServices(this IServiceCollection services,
             IConfiguration configuration)
         {
+            var stackPrefix = configuration.GetValue<string>("AWS:StackPrefix") ?? "";
+
             services.AddSingleton<IBookFactory, BookFactory>();
             services.AddSingleton<IIsbnFactory, IsbnFactory>();
             services.AddSingleton<IIsbnValidator, IsbnValidator>();
@@ -28,10 +31,16 @@ namespace BookChest.DI
             services.AddAWSService<IAmazonDynamoDB>();
             var dynamoDbClient = awsConfig.CreateServiceClient<IAmazonDynamoDB>();
             services.AddSingleton(dynamoDbClient);
+            var dbContextConfig = configuration.GetSection("AWS:DynamoDB:DynamoDBContext")?.Get<DynamoDBContextConfig>()
+                ?? new DynamoDBContextConfig();
+            dbContextConfig.TableNamePrefix ??= stackPrefix;
+            services.AddSingleton(dbContextConfig);
             services.AddScoped<BookChestDbContext>();
             services.AddScoped<IBookRepository, BookRepository>();
 
             services.AddAWSService<IAmazonSQS>();
+            var queuePublisherConfig = new QueuePublisherConfig {QueueNamePrefix = stackPrefix};
+            services.AddSingleton(queuePublisherConfig);
             var sqsClient = awsConfig.CreateServiceClient<IAmazonSQS>();
             services.AddSingleton(sqsClient);
             services.AddSingleton<IBookQueuePublisher, BookQueuePublisher>();

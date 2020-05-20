@@ -17,7 +17,8 @@ namespace BookChest.Infrastructure.Services
         private readonly JsonSerializerSettings _serializerSettings;
 
         public BookQueuePublisher(
-            IAmazonSQS queue)
+            IAmazonSQS queue,
+            QueuePublisherConfig queuePublisherConfig)
         {
             _queue = queue;
             _serializerSettings = new JsonSerializerSettings
@@ -28,9 +29,10 @@ namespace BookChest.Infrastructure.Services
                 }
             };
 
+            var queueName = queuePublisherConfig.QueueNamePrefix + "book-chest-queue";
             _getQueueUrlTask = Task.Run(async () =>
             {
-                var request = new GetQueueUrlRequest { QueueName = "book-chest-queue" };
+                var request = new GetQueueUrlRequest { QueueName = queueName };
                 var response = await _queue.GetQueueUrlAsync(request);
                 return response.QueueUrl;
             });

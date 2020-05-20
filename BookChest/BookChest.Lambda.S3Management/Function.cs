@@ -9,7 +9,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
@@ -17,10 +16,10 @@ namespace BookChest.Lambda.S3Management
 {
     public class Function
     {
-        private const string BucketName = "book-chest-bucket";
         private readonly IAmazonS3 _amazonS3;
         private readonly JsonSerializerOptions _serializerOptions;
         private readonly TransferUtility _fileTransferUtility;
+        private string BucketName { get; }
 
         /// <summary>
         /// Default constructor. This constructor is used by Lambda to construct the instance. When invoked in a Lambda environment
@@ -34,6 +33,7 @@ namespace BookChest.Lambda.S3Management
             _serializerOptions = new JsonSerializerOptions();
             _serializerOptions.Converters.Add(new JsonStringEnumConverter());
             _fileTransferUtility = new TransferUtility(_amazonS3);
+            BucketName = Environment.GetEnvironmentVariable("BucketName") ?? "book-chest-bucket";
         }
 
         /// <summary>
