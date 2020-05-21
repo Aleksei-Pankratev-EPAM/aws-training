@@ -1,0 +1,152 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    
+    "Resources": {
+
+        "roleFileManagement": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRole"
+                        }
+                    ]
+                },
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/AmazonSQSFullAccess",
+                    "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+                    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                ]
+            }
+        },
+
+        "roleApplication": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": "ec2.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRole"
+                        }
+                    ]
+                },
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/AmazonSQSFullAccess",
+                    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess",
+                    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+                ]
+            }
+        },
+
+        "tableBooks": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+                "TableName":  { "Fn::Join": ["-", [
+                    { "Ref": "AWS::StackName" },
+                    "book-chest"
+                ]]},
+                "AttributeDefinitions": [
+                    {
+                        "AttributeName": "isbn",
+                        "AttributeType": "S"
+                    }
+                ],
+                "KeySchema": [
+                    {
+                        "AttributeName": "isbn",
+                        "KeyType": "HASH"
+                    }
+                ],
+                "ProvisionedThroughput": {
+                    "ReadCapacityUnits": "5",
+                    "WriteCapacityUnits": "5"
+                }
+            }
+        },
+
+        "queueBooks": {
+            "Type": "AWS::SQS::Queue",
+            "Properties": {
+                "QueueName": { "Fn::Join": ["-", [
+                    { "Ref": "AWS::StackName" },
+                    "book-chest-queue"
+                ]]}
+            }
+        },
+
+        "queueBooksAccessPolicy": {
+            "Type" : "AWS::SQS::QueuePolicy",
+            "Properties" : {
+                "PolicyDocument" : {   
+                    "Version": "2012-10-17",
+                    "Id": "queueBooksAccessPolicy",
+                    "Statement" : [{
+                       "Sid": "queueBooksAccessPolicy1", 
+                       "Effect": "Allow",           
+                       "Principal": {
+                          "AWS": [ { "Ref": "AWS::AccountId" } ]
+                       },
+                       "Action": [
+                          "sqs:SendMessage",
+                          "sqs:ReceiveMessage"
+                       ] 
+                    }]
+                 },
+                "Queues" : [
+                    { "Ref": "queueBooks" }
+                ]
+            }
+        },
+
+        "bucketBooks": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": { "Fn::Join": ["-", [
+                    { "Ref": "AWS::StackName" },
+                    "book-chest-bucket"
+                ]]}
+            }
+        },
+
+        "lambdaBooks": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": { 
+                "Code": { 
+                    "S3Bucket": "bookchest-lambda-functions",
+                    "S3Key": "BookChest.Lambda.S3Management.zip"
+                },
+                "Environment":{
+                    "Variables": {
+                        "BucketName" : { "Ref": "bucketBooks" }
+                        }
+                },
+                "Handler": "BookChest.Lambda.S3Management::BookChest.Lambda.S3Management.Function::FunctionHandler",
+                "MemorySize": 256,
+                "Role": {"Fn::GetAtt" : ["roleFileManagement", "Arn"] },
+                "Runtime": "dotnetcore3.1",
+                "Timeout": 30
+            }
+        },
+        
+        "lambdaSqsBinder": {
+            "Type" : "AWS::Lambda::EventSourceMapping",
+            "Properties" : {
+                "BatchSize" : 10,
+                "Enabled" : true,
+                "EventSourceArn" : { "Fn::GetAtt" : [ "queueBooks", "Arn" ] },
+                "FunctionName" : { "Fn::GetAtt" : [ "lambdaBooks", "Arn" ] }
+            }
+        }
+    }
+}
