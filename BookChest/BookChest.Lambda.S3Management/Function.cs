@@ -74,7 +74,7 @@ namespace BookChest.Lambda.S3Management
             await using var ms = new MemoryStream();
             await using var stream = new StreamWriter(ms);
 
-            await stream.WriteLineAsync($"Created at {DateTimeOffset.Now}");
+            await stream.WriteLineAsync($"Created at {DateTimeOffset.Now}. Modified version");
             await stream.FlushAsync();
             await _fileTransferUtility.UploadAsync(ms, BucketName, fileName);
         }
