@@ -5,8 +5,8 @@ namespace BookChest.Infrastructure
 {
     public class BookChestDbContext : DynamoDBContext
     {
-        public BookChestDbContext(IAmazonDynamoDB client)
-            : base(client)
+        public BookChestDbContext(IAmazonDynamoDB client, DynamoDBContextConfig config)
+            : base(client, config)
         {
         }
     }
